@@ -3,6 +3,7 @@ import { MessageSquare, X, Send, Sparkles, BookOpen, UserCheck, PhoneCall, Loade
 import { ChatbotSettings, SiteSettings } from '../../types';
 import { getChatbotSettings, logChatConversation } from '../../firebase/services';
 import { useLanguage } from '../../context/LanguageContext';
+import { getSmartCounselorReply } from '../../utils/aiCounselor';
 
 interface Message {
   role: 'bot' | 'user';
@@ -90,6 +91,8 @@ export const FloatingChatbot: React.FC<FloatingChatbotProps> = ({ settings, onNa
     setInputText('');
     setIsLoading(true);
 
+    let botReply = '';
+
     try {
       const response = await fetch('/api/chatbot', {
         method: 'POST',
@@ -107,35 +110,43 @@ Features: Certified Tutors, 1-on-1 Classes, Female Tutors for Sisters, 3-Day Fre
         }),
       });
 
-      const data = await response.json();
-      const botReply = data.reply || data.fallback || 'Assalamu Alaikum. Please contact our admissions team on WhatsApp for prompt assistance.';
-
-      const botMsg: Message = {
-        role: 'bot',
-        text: botReply,
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-
-      setMessages((prev) => [...prev, botMsg]);
-
-      // Log conversation to Firestore in background for admin review
-      logChatConversation({
-        sessionId,
-        userMessage: textToSend.trim(),
-        botReply,
-        userLanguage: isUrdu ? 'ur' : 'en',
-      }).catch((e) => console.warn('Failed to log chat:', e));
+      if (response.ok) {
+        const data = await response.json();
+        if (data && typeof data.reply === 'string' && data.reply.trim().length > 0) {
+          botReply = data.reply.trim();
+        }
+      }
     } catch (err) {
-      console.error('Chat error:', err);
-      const fallbackMsg: Message = {
-        role: 'bot',
-        text: 'Assalamu Alaikum. Our admissions team is available via WhatsApp at ' + (settings.whatsapp || '+92 300 1234567') + ' to assist you immediately.',
-        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      };
-      setMessages((prev) => [...prev, fallbackMsg]);
-    } finally {
-      setIsLoading(false);
+      console.warn('API endpoint unreachable, activating client counselor engine:', err);
     }
+
+    // Guaranteed instant intelligent answer (works 100% on Vercel, offline, or if server is slow)
+    if (!botReply) {
+      botReply = getSmartCounselorReply(textToSend.trim(), {
+        academyName: settings.academyName,
+        phone: settings.phone,
+        whatsapp: settings.whatsapp,
+        address: settings.address,
+      });
+    }
+
+    const botMsg: Message = {
+      role: 'bot',
+      text: botReply,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    };
+
+    setMessages((prev) => [...prev, botMsg]);
+
+    // Log conversation to Firestore in background for admin review
+    logChatConversation({
+      sessionId,
+      userMessage: textToSend.trim(),
+      botReply,
+      userLanguage: isUrdu ? 'ur' : 'en',
+    }).catch((e) => console.warn('Failed to log chat:', e));
+
+    setIsLoading(false);
   };
 
   if (botConfig && !botConfig.isEnabled) {

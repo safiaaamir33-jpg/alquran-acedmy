@@ -45,6 +45,10 @@ export const Footer: React.FC<FooterProps> = ({ settings, onNavigate }) => {
                 <img
                   src={settings.logoUrl}
                   alt={settings.academyName || 'Noor Al-Quran Academy'}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = '/images/logo.svg';
+                  }}
                   className="w-12 h-12 object-contain rounded-xl bg-white p-1 border border-emerald-800 shadow-sm"
                 />
               ) : (

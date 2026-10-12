@@ -142,8 +142,22 @@ export const AdminTeachersPage: React.FC<{
             <div>
               <div className="flex items-center gap-4 mb-4">
                 <img
-                  src={teacher.imageUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80'}
+                  src={
+                    teacher.imageUrl
+                      ? teacher.imageUrl.replace('/src/assets/images/', '/images/')
+                      : teacher.gender === 'Female' || teacher.name.toLowerCase().includes('ayesha')
+                      ? '/images/female_quran_tutor.jpg'
+                      : '/images/qari_teacher_male.jpg'
+                  }
                   alt={teacher.name}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    if (teacher.gender === 'Female' || teacher.name.toLowerCase().includes('ayesha')) {
+                      e.currentTarget.src = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80';
+                    } else {
+                      e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80';
+                    }
+                  }}
                   className="w-16 h-16 rounded-xl object-cover border border-emerald-100"
                 />
                 <div>

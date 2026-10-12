@@ -5,7 +5,7 @@ export const initialSiteSettings: SiteSettings = {
   academyNameUrdu: 'نور القرآن اکیڈمی پاکستان',
   tagline: 'Illuminating Hearts & Minds with the Noble Quran across Pakistan & Worldwide',
   taglineUrdu: 'آن لائن قرآن تعلیم تجوید و حفظ کے ساتھ — پاکستان و بیرون ملک',
-  logoUrl: '', // uses fallback SVG calligraphy if empty
+  logoUrl: '/images/logo.svg',
   heroTitle: 'Learn the Holy Quran with Tajweed & Excellence',
   heroSubtitle: 'Certified Quran teachers, personalized 1-on-1 online classes, flexible schedules, and special female tutors for sisters and children. Start your 3-day free trial today.',
   heroImageUrl: 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=1200&q=80',
@@ -165,7 +165,7 @@ export const initialTeachers: Omit<Teacher, 'id'>[] = [
     gender: 'Male',
     bio: 'Graduated with distinction from Jamia Ashrafia Lahore. Specializes in guiding children through early Qaida and mentoring teenagers in full Quran memorization.',
     bioUrdu: 'جامعہ اشرفیہ لاہور کے فاضل۔ بچوں کو تجوید اور حفظ قرآن سکھانے میں خاص مہارت رکھتے ہیں۔',
-    imageUrl: '/src/assets/images/qari_teacher_male_1791731899766.jpg',
+    imageUrl: '/images/qari_teacher_male.jpg',
     isPublished: true,
   },
   {
@@ -178,7 +178,7 @@ export const initialTeachers: Omit<Teacher, 'id'>[] = [
     gender: 'Female',
     bio: 'Patient and encouraging educator dedicated to helping female students and young children cultivate a deep love for Quranic recitation and daily Islamic etiquette.',
     bioUrdu: 'خواتین اور بچوں کے لیے مخصوص معلمہ۔ نرم خوئی اور محبت کے ساتھ قرآن فہمی کی تعلیم۔',
-    imageUrl: '/src/assets/images/female_quran_tutor_1791731925907.jpg',
+    imageUrl: '/images/female_quran_tutor.jpg',
     isPublished: true,
   },
   {
@@ -191,7 +191,7 @@ export const initialTeachers: Omit<Teacher, 'id'>[] = [
     gender: 'Male',
     bio: 'Renowned lecturer who translates complex Quranic semantics into accessible real-world wisdom. Mentors youth and working professionals in understanding the divine message.',
     bioUrdu: 'عصری تقاضوں کے مطابق قرآن کی تفسیر اور احکام کے فہم میں معتبر علمی شخصیت۔',
-    imageUrl: '/src/assets/images/islamic_scholar_mufti_1791731957430.jpg',
+    imageUrl: '/images/islamic_scholar_mufti.jpg',
     isPublished: true,
   },
 ];

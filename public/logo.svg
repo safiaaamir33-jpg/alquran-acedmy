@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#075E46" />
+      <stop offset="100%" stop-color="#04382A" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F9E29B" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#AA8010" />
+    </linearGradient>
+  </defs>
+  <!-- Base Shield / Rounded Background -->
+  <rect x="8" y="8" width="184" height="184" rx="42" fill="url(#bgGrad)" stroke="url(#goldGrad)" stroke-width="4" />
+  
+  <!-- Outer Decorative Ring -->
+  <circle cx="100" cy="100" r="76" fill="none" stroke="url(#goldGrad)" stroke-width="2" stroke-dasharray="4,4" opacity="0.6"/>
+  
+  <!-- Crescent Moon Symbol -->
+  <path d="M 108 34 A 42 42 0 1 0 142 86 A 34 34 0 1 1 108 34 Z" fill="url(#goldGrad)" opacity="0.9" />
+  
+  <!-- Five-pointed Star -->
+  <polygon points="126,52 129,59 137,60 131,65 133,72 126,68 119,72 121,65 115,60 123,59" fill="url(#goldGrad)" />
+  
+  <!-- Open Quran Book -->
+  <g transform="translate(100, 115)">
+    <!-- Book Spine & Pages -->
+    <path d="M 0 12 Q -26 -16 -62 -12 L -62 20 Q -26 16 0 38 Q 26 16 62 20 L 62 -12 Q 26 -16 0 12 Z" fill="#FFFFFF" opacity="0.95"/>
+    <path d="M 0 12 Q -26 -14 -60 -10 L -60 18 Q -26 14 0 36 Q 26 14 60 18 L 60 -10 Q 26 -14 0 12 Z" fill="#F8FAFC"/>
+    <!-- Page text lines decoration -->
+    <path d="M -48 -2 Q -30 -4 -12 12 M -48 6 Q -30 4 -12 20 M 12 12 Q 30 -4 48 -2 M 12 20 Q 30 4 48 6" stroke="#075E46" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+    <!-- Book Center Seam -->
+    <line x1="0" y1="12" x2="0" y2="38" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round"/>
+    <!-- Rehal (Book Stand) -->
+    <path d="M -22 36 L -36 50 M 22 36 L 36 50 M -12 40 L 12 40" stroke="url(#goldGrad)" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Bottom Text: NOOR -->
+  <text x="100" y="180" font-family="sans-serif" font-weight="900" font-size="16" fill="url(#goldGrad)" text-anchor="middle" letter-spacing="3">NOOR AL-QURAN</text>
+</svg>

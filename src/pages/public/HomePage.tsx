@@ -290,8 +290,22 @@ export const HomePage: React.FC<HomePageProps> = ({
               >
                 <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-[#075E46]/20 mb-4 shadow-inner">
                   <img
-                    src={t.imageUrl || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80'}
+                    src={
+                      t.imageUrl
+                        ? t.imageUrl.replace('/src/assets/images/', '/images/')
+                        : t.gender === 'Female' || t.name.toLowerCase().includes('ayesha')
+                        ? '/images/female_quran_tutor.jpg'
+                        : '/images/qari_teacher_male.jpg'
+                    }
                     alt={t.name}
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      if (t.gender === 'Female' || t.name.toLowerCase().includes('ayesha')) {
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80';
+                      } else {
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80';
+                      }
+                    }}
                     className="w-full h-full object-cover"
                   />
                 </div>

@@ -105,6 +105,10 @@ export const Header: React.FC<HeaderProps> = ({ settings, currentPath, onNavigat
             <img
               src={settings.logoUrl}
               alt={settings.academyName || 'Noor Al-Quran Academy'}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = '/images/logo.svg';
+              }}
               className="w-11 h-11 sm:w-13 sm:h-13 object-contain rounded-xl border border-emerald-100 shadow-sm bg-white p-0.5 group-hover:scale-105 transition-transform"
             />
           ) : (
