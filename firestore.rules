@@ -1,0 +1,111 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    // Health test check connection
+    match /test/{testId} {
+      allow get, list: if true;
+    }
+
+    // Admins Collection
+    match /admins/{adminId} {
+      allow get: if isValidId(adminId);
+      allow list: if true;
+      allow write: if isValidId(adminId);
+    }
+
+    // Site Settings: Public read & management write
+    match /siteSettings/{settingId} {
+      allow get: if isValidId(settingId);
+      allow list: if true;
+      allow write: if isValidId(settingId);
+    }
+
+    // Courses: Public read & management write
+    match /courses/{courseId} {
+      allow get: if isValidId(courseId);
+      allow list: if true;
+      allow write: if isValidId(courseId);
+    }
+
+    // Teachers: Public read & management write
+    match /teachers/{teacherId} {
+      allow get: if isValidId(teacherId);
+      allow list: if true;
+      allow write: if isValidId(teacherId);
+    }
+
+    // Admissions: Public application submission & management operations
+    match /admissions/{admissionId} {
+      allow get, write, delete: if isValidId(admissionId);
+      allow list: if true;
+    }
+
+    // Students: Academy student roster management
+    match /students/{studentId} {
+      allow get, write, delete: if isValidId(studentId);
+      allow list: if true;
+    }
+
+    // Student Fees: Academy fee tracking
+    match /studentFees/{feeId} {
+      allow get, write, delete: if isValidId(feeId);
+      allow list: if true;
+    }
+
+    // Announcements & Posters: Public read & management write
+    match /announcements/{announcementId} {
+      allow get: if isValidId(announcementId);
+      allow list: if true;
+      allow write: if isValidId(announcementId);
+    }
+
+    // Gallery: Public read & management write
+    match /gallery/{imageId} {
+      allow get: if isValidId(imageId);
+      allow list: if true;
+      allow write: if isValidId(imageId);
+    }
+
+    // Reviews: Public read & submission; Management moderation
+    match /reviews/{reviewId} {
+      allow get, write, delete: if isValidId(reviewId);
+      allow list: if true;
+    }
+
+    // FAQs: Public read & management write
+    match /faqs/{faqId} {
+      allow get: if isValidId(faqId);
+      allow list: if true;
+      allow write: if isValidId(faqId);
+    }
+
+    // Contact Messages: Public submission & website viewing / management
+    match /contactMessages/{messageId} {
+      allow get, write, delete: if isValidId(messageId);
+      allow list: if true;
+    }
+
+    // Chatbot Settings: Public read & management write
+    match /chatbotSettings/{settingId} {
+      allow get: if isValidId(settingId);
+      allow list: if true;
+      allow write: if isValidId(settingId);
+    }
+
+    // Chat Conversations: Public log & management review
+    match /chatConversations/{conversationId} {
+      allow get: if isValidId(conversationId);
+      allow list: if true;
+      allow create, update, delete: if isValidId(conversationId);
+    }
+  }
+}
+

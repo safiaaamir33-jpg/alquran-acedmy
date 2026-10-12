@@ -1,0 +1,329 @@
+{
+  "entities": {
+    "Admin": {
+      "title": "Admin",
+      "description": "Authorized administrator profile",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "enum": ["admin", "superadmin"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["email", "role"]
+    },
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Global website branding and settings",
+      "type": "object",
+      "properties": {
+        "academyName": { "type": "string", "maxLength": 100 },
+        "academyNameUrdu": { "type": "string", "maxLength": 100 },
+        "tagline": { "type": "string", "maxLength": 200 },
+        "taglineUrdu": { "type": "string", "maxLength": 200 },
+        "logoUrl": { "type": "string", "maxLength": 200000 },
+        "heroTitle": { "type": "string", "maxLength": 200 },
+        "heroSubtitle": { "type": "string", "maxLength": 500 },
+        "heroImageUrl": { "type": "string", "maxLength": 200000 },
+        "topNoticeText": { "type": "string", "maxLength": 300 },
+        "showTopNotice": { "type": "boolean" },
+        "phone": { "type": "string", "maxLength": 30 },
+        "whatsapp": { "type": "string", "maxLength": 30 },
+        "email": { "type": "string", "maxLength": 100 },
+        "address": { "type": "string", "maxLength": 255 },
+        "city": { "type": "string", "maxLength": 100 },
+        "country": { "type": "string", "maxLength": 100 },
+        "timings": { "type": "string", "maxLength": 200 },
+        "feeStructureNote": { "type": "string", "maxLength": 500 },
+        "bankDetails": { "type": "string", "maxLength": 1000 },
+        "freeTrialDays": { "type": "string", "maxLength": 50 },
+        "showClientMessagesOnWeb": { "type": "boolean" },
+        "aboutMission": { "type": "string", "maxLength": 2000 },
+        "aboutVision": { "type": "string", "maxLength": 2000 },
+        "aboutApproach": { "type": "string", "maxLength": 2000 },
+        "facebookUrl": { "type": "string", "maxLength": 300 },
+        "youtubeUrl": { "type": "string", "maxLength": 300 },
+        "instagramUrl": { "type": "string", "maxLength": 300 },
+        "whatsappChannelUrl": { "type": "string", "maxLength": 300 },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "Course": {
+      "title": "Course",
+      "description": "Quran or Islamic study course",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "titleUrdu": { "type": "string", "maxLength": 150 },
+        "category": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 3000 },
+        "descriptionUrdu": { "type": "string", "maxLength": 3000 },
+        "duration": { "type": "string", "maxLength": 100 },
+        "classMode": { "type": "string", "maxLength": 100 },
+        "timing": { "type": "string", "maxLength": 100 },
+        "feePkr": { "type": "string", "maxLength": 50 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "isPublished": { "type": "boolean" },
+        "isFeatured": { "type": "boolean" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["title", "category", "description", "isPublished"]
+    },
+    "Teacher": {
+      "title": "Teacher",
+      "description": "Teacher profile",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 120 },
+        "nameUrdu": { "type": "string", "maxLength": 120 },
+        "qualification": { "type": "string", "maxLength": 200 },
+        "qualificationUrdu": { "type": "string", "maxLength": 200 },
+        "subjects": { "type": "string", "maxLength": 255 },
+        "experience": { "type": "string", "maxLength": 100 },
+        "gender": { "type": "string", "maxLength": 20 },
+        "bio": { "type": "string", "maxLength": 2000 },
+        "bioUrdu": { "type": "string", "maxLength": 2000 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "isPublished": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "qualification", "isPublished"]
+    },
+    "Admission": {
+      "title": "Admission",
+      "description": "Student admission application",
+      "type": "object",
+      "properties": {
+        "studentName": { "type": "string", "maxLength": 120 },
+        "guardianName": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 40 },
+        "email": { "type": "string", "maxLength": 120 },
+        "age": { "type": "string", "maxLength": 30 },
+        "courseId": { "type": "string", "maxLength": 128 },
+        "courseTitle": { "type": "string", "maxLength": 150 },
+        "classMode": { "type": "string", "maxLength": 50 },
+        "preferredTiming": { "type": "string", "maxLength": 100 },
+        "message": { "type": "string", "maxLength": 1500 },
+        "status": { "type": "string", "enum": ["pending", "contacted", "enrolled", "rejected"] },
+        "notes": { "type": "string", "maxLength": 1500 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["studentName", "phone", "courseTitle", "status"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "Enrolled student record",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 120 },
+        "guardianName": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 40 },
+        "email": { "type": "string", "maxLength": 120 },
+        "courseId": { "type": "string", "maxLength": 128 },
+        "courseTitle": { "type": "string", "maxLength": 150 },
+        "enrollmentDate": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["active", "paused", "graduated", "inactive"] },
+        "feeStatus": { "type": "string", "enum": ["paid", "pending", "partial"] },
+        "monthlyFeePkr": { "type": "number" },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "phone", "courseTitle", "status"]
+    },
+    "StudentFee": {
+      "title": "StudentFee",
+      "description": "Student monthly fee payment record",
+      "type": "object",
+      "properties": {
+        "studentId": { "type": "string", "maxLength": 128 },
+        "studentName": { "type": "string", "maxLength": 120 },
+        "month": { "type": "string", "maxLength": 30 },
+        "year": { "type": "number" },
+        "amountPkr": { "type": "number" },
+        "status": { "type": "string", "enum": ["paid", "pending", "partial"] },
+        "paidDate": { "type": "string", "maxLength": 50 },
+        "receiptNotes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["studentId", "month", "year", "amountPkr", "status"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Academy notice or poster announcement",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 200 },
+        "titleUrdu": { "type": "string", "maxLength": 200 },
+        "content": { "type": "string", "maxLength": 3000 },
+        "contentUrdu": { "type": "string", "maxLength": 3000 },
+        "category": { "type": "string", "maxLength": 80 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "actionLink": { "type": "string", "maxLength": 500 },
+        "isPublished": { "type": "boolean" },
+        "publishedAt": { "type": "string", "maxLength": 50 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["title", "content", "isPublished"]
+    },
+    "Gallery": {
+      "title": "Gallery",
+      "description": "Photo gallery item",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "category": { "type": "string", "maxLength": 80 },
+        "imageUrl": { "type": "string", "maxLength": 500 },
+        "caption": { "type": "string", "maxLength": 500 },
+        "isPublished": { "type": "boolean" },
+        "order": { "type": "number" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["imageUrl", "isPublished"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Student or parent feedback",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "relation": { "type": "string", "maxLength": 50 },
+        "courseTitle": { "type": "string", "maxLength": 150 },
+        "rating": { "type": "number" },
+        "comment": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "rating", "comment", "status"]
+    },
+    "FAQ": {
+      "title": "FAQ",
+      "description": "Frequently asked question",
+      "type": "object",
+      "properties": {
+        "question": { "type": "string", "maxLength": 250 },
+        "questionUrdu": { "type": "string", "maxLength": 250 },
+        "answer": { "type": "string", "maxLength": 2000 },
+        "answerUrdu": { "type": "string", "maxLength": 2000 },
+        "category": { "type": "string", "maxLength": 80 },
+        "order": { "type": "number" },
+        "isPublished": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["question", "answer", "isPublished"]
+    },
+    "ContactMessage": {
+      "title": "ContactMessage",
+      "description": "Inquiry submitted through contact form",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 40 },
+        "subject": { "type": "string", "maxLength": 200 },
+        "message": { "type": "string", "maxLength": 2000 },
+        "showOnWebsite": { "type": "boolean" },
+        "replyText": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["unread", "read", "resolved"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["name", "message", "status"]
+    },
+    "ChatbotSettings": {
+      "title": "ChatbotSettings",
+      "description": "Admin configuration for AI chatbot",
+      "type": "object",
+      "properties": {
+        "isEnabled": { "type": "boolean" },
+        "botName": { "type": "string", "maxLength": 80 },
+        "welcomeMessage": { "type": "string", "maxLength": 500 },
+        "welcomeMessageUrdu": { "type": "string", "maxLength": 500 },
+        "systemPrompt": { "type": "string", "maxLength": 3000 },
+        "tone": { "type": "string", "maxLength": 50 },
+        "suggestedQuestions": { "type": "string", "maxLength": 1500 },
+        "showAdmissionShortcut": { "type": "boolean" },
+        "showContactShortcut": { "type": "boolean" },
+        "updatedAt": { "type": "string" }
+      }
+    },
+    "ChatConversation": {
+      "title": "ChatConversation",
+      "description": "Recorded chat interaction for admin review",
+      "type": "object",
+      "properties": {
+        "sessionId": { "type": "string", "maxLength": 128 },
+        "userMessage": { "type": "string", "maxLength": 2000 },
+        "botReply": { "type": "string", "maxLength": 5000 },
+        "timestamp": { "type": "string" },
+        "status": { "type": "string", "enum": ["unreviewed", "reviewed", "flagged"] },
+        "userLanguage": { "type": "string", "maxLength": 10 }
+      },
+      "required": ["sessionId", "userMessage", "botReply"]
+    }
+  },
+  "firestore": {
+    "/admins/{adminId}": {
+      "schema": { "$ref": "Admin" },
+      "description": "Admin users permitted to access the control panel"
+    },
+    "/siteSettings/{settingId}": {
+      "schema": { "$ref": "SiteSettings" },
+      "description": "Academy site-wide configuration and branding"
+    },
+    "/courses/{courseId}": {
+      "schema": { "$ref": "Course" },
+      "description": "Quranic courses offered by the academy"
+    },
+    "/teachers/{teacherId}": {
+      "schema": { "$ref": "Teacher" },
+      "description": "Published teacher profiles"
+    },
+    "/admissions/{admissionId}": {
+      "schema": { "$ref": "Admission" },
+      "description": "Online admission applications submitted by parents and students"
+    },
+    "/students/{studentId}": {
+      "schema": { "$ref": "Student" },
+      "description": "Enrolled student records (admin only)"
+    },
+    "/studentFees/{feeId}": {
+      "schema": { "$ref": "StudentFee" },
+      "description": "Fee payment records for enrolled students (admin only)"
+    },
+    "/announcements/{announcementId}": {
+      "schema": { "$ref": "Announcement" },
+      "description": "Academy announcements and admission posters"
+    },
+    "/gallery/{imageId}": {
+      "schema": { "$ref": "Gallery" },
+      "description": "Public photo gallery items"
+    },
+    "/reviews/{reviewId}": {
+      "schema": { "$ref": "Review" },
+      "description": "Student and parent reviews (moderated)"
+    },
+    "/faqs/{faqId}": {
+      "schema": { "$ref": "FAQ" },
+      "description": "Frequently asked questions"
+    },
+    "/contactMessages/{messageId}": {
+      "schema": { "$ref": "ContactMessage" },
+      "description": "Contact form inquiries (admin only read)"
+    },
+    "/chatbotSettings/{settingId}": {
+      "schema": { "$ref": "ChatbotSettings" },
+      "description": "Chatbot configuration (public read, admin write)"
+    },
+    "/chatConversations/{conversationId}": {
+      "schema": { "$ref": "ChatConversation" },
+      "description": "Visitor chatbot conversation logs for admin oversight"
+    }
+  }
+}
