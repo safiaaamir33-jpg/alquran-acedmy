@@ -4,6 +4,7 @@ import { Course } from '../../types';
 import { saveCourse, deleteCourse } from '../../firebase/services';
 import { ImageUploadModal } from '../../components/common/ImageUploadModal';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
+import { resolveImageUrl } from '../../utils/imageHelpers';
 
 export const AdminCoursesPage: React.FC<{
   courses: Course[];
@@ -178,8 +179,12 @@ export const AdminCoursesPage: React.FC<{
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-3">
                       <img
-                        src={c.imageUrl || 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=200&q=80'}
+                        src={resolveImageUrl(c.imageUrl, 'course')}
                         alt={c.title}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=200&q=80';
+                        }}
                         className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
                       />
                       <div>

@@ -39,7 +39,7 @@ export const AdminTeachersPage: React.FC<{
     setGender('Male');
     setBio('');
     setBioUrdu('');
-    setImageUrl('/src/assets/images/qari_teacher_male_1791731899766.jpg');
+    setImageUrl('/images/qari_teacher_male.jpg');
     setIsPublished(true);
     setModalOpen(true);
   };
@@ -55,7 +55,7 @@ export const AdminTeachersPage: React.FC<{
     setGender(t.gender || 'Male');
     setBio(t.bio || '');
     setBioUrdu(t.bioUrdu || '');
-    setImageUrl(t.imageUrl || '/src/assets/images/qari_teacher_male_1791731899766.jpg');
+    setImageUrl(t.imageUrl || (t.gender === 'Female' ? '/images/female_quran_tutor.jpg' : '/images/qari_teacher_male.jpg'));
     setIsPublished(t.isPublished);
     setModalOpen(true);
   };
@@ -80,7 +80,7 @@ export const AdminTeachersPage: React.FC<{
           gender,
           bio: bio.trim(),
           bioUrdu: bioUrdu.trim(),
-          imageUrl: imageUrl.trim() || '/src/assets/images/qari_teacher_male_1791731899766.jpg',
+          imageUrl: imageUrl.trim() || (gender === 'Female' ? '/images/female_quran_tutor.jpg' : '/images/qari_teacher_male.jpg'),
           isPublished,
         },
         editingTeacher?.id
@@ -296,38 +296,38 @@ export const AdminTeachersPage: React.FC<{
                   <div className="flex gap-2">
                     <button
                       type="button"
-                      onClick={() => setImageUrl('/src/assets/images/qari_teacher_male_1791731899766.jpg')}
+                      onClick={() => setImageUrl('/images/qari_teacher_male.jpg')}
                       className={`flex items-center gap-1.5 p-1.5 rounded-lg border text-[11px] font-medium transition-all ${
-                        imageUrl === '/src/assets/images/qari_teacher_male_1791731899766.jpg'
+                        imageUrl === '/images/qari_teacher_male.jpg'
                           ? 'border-[#075E46] bg-white text-[#075E46] ring-2 ring-[#075E46]/30 font-bold'
                           : 'border-gray-200 bg-white hover:bg-emerald-50 text-gray-700'
                       }`}
                     >
-                      <img src="/src/assets/images/qari_teacher_male_1791731899766.jpg" className="w-6 h-6 rounded-md object-cover" alt="Qari" />
+                      <img src="/images/qari_teacher_male.jpg" className="w-6 h-6 rounded-md object-cover" alt="Qari" />
                       <span>Qari (Male)</span>
                     </button>
                     <button
                       type="button"
-                      onClick={() => setImageUrl('/src/assets/images/female_quran_tutor_1791731925907.jpg')}
+                      onClick={() => setImageUrl('/images/female_quran_tutor.jpg')}
                       className={`flex items-center gap-1.5 p-1.5 rounded-lg border text-[11px] font-medium transition-all ${
-                        imageUrl === '/src/assets/images/female_quran_tutor_1791731925907.jpg'
+                        imageUrl === '/images/female_quran_tutor.jpg'
                           ? 'border-[#075E46] bg-white text-[#075E46] ring-2 ring-[#075E46]/30 font-bold'
                           : 'border-gray-200 bg-white hover:bg-emerald-50 text-gray-700'
                       }`}
                     >
-                      <img src="/src/assets/images/female_quran_tutor_1791731925907.jpg" className="w-6 h-6 rounded-md object-cover" alt="Ustadha" />
+                      <img src="/images/female_quran_tutor.jpg" className="w-6 h-6 rounded-md object-cover" alt="Ustadha" />
                       <span>Ustadha (Female)</span>
                     </button>
                     <button
                       type="button"
-                      onClick={() => setImageUrl('/src/assets/images/islamic_scholar_mufti_1791731957430.jpg')}
+                      onClick={() => setImageUrl('/images/islamic_scholar_mufti.jpg')}
                       className={`flex items-center gap-1.5 p-1.5 rounded-lg border text-[11px] font-medium transition-all ${
-                        imageUrl === '/src/assets/images/islamic_scholar_mufti_1791731957430.jpg'
+                        imageUrl === '/images/islamic_scholar_mufti.jpg'
                           ? 'border-[#075E46] bg-white text-[#075E46] ring-2 ring-[#075E46]/30 font-bold'
                           : 'border-gray-200 bg-white hover:bg-emerald-50 text-gray-700'
                       }`}
                     >
-                      <img src="/src/assets/images/islamic_scholar_mufti_1791731957430.jpg" className="w-6 h-6 rounded-md object-cover" alt="Mufti" />
+                      <img src="/images/islamic_scholar_mufti.jpg" className="w-6 h-6 rounded-md object-cover" alt="Mufti" />
                       <span>Mufti / Scholar</span>
                     </button>
                   </div>

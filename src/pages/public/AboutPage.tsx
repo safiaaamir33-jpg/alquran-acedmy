@@ -30,6 +30,10 @@ export const AboutPage: React.FC<{ settings: SiteSettings; onNavigate: (path: st
           <img
             src="https://images.unsplash.com/photo-1542816417-0983c9c9ad53?auto=format&fit=crop&w=800&q=80"
             alt="Academy students studying Quran"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = '/images/admission_poster.jpg';
+            }}
             className="w-full h-80 sm:h-96 object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#075E46]/80 via-transparent to-transparent flex items-end p-6">

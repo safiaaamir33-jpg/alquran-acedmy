@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Phone, MessageCircle, Globe, Menu, X, BookOpen, ShieldCheck, UserCheck } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { SiteSettings } from '../../types';
+import { resolveImageUrl } from '../../utils/imageHelpers';
 
 interface HeaderProps {
   settings: SiteSettings;
@@ -103,7 +104,7 @@ export const Header: React.FC<HeaderProps> = ({ settings, currentPath, onNavigat
         >
           {settings.logoUrl ? (
             <img
-              src={settings.logoUrl}
+              src={resolveImageUrl(settings.logoUrl, 'logo')}
               alt={settings.academyName || 'Noor Al-Quran Academy'}
               onError={(e) => {
                 e.currentTarget.onerror = null;

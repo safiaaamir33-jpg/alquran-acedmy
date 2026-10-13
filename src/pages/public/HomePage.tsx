@@ -18,6 +18,7 @@ import {
 import { Course, Teacher, Announcement, GalleryItem, Review, FAQ, SiteSettings, ContactMessage } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
 import { Lightbox } from '../../components/common/Lightbox';
+import { resolveImageUrl } from '../../utils/imageHelpers';
 
 interface HomePageProps {
   settings: SiteSettings;
@@ -116,11 +117,12 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="relative mx-auto max-w-md lg:max-w-none">
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 bg-white/5">
                   <img
-                    src={
-                      settings.heroImageUrl ||
-                      'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=800&q=80'
-                    }
+                    src={resolveImageUrl(settings.heroImageUrl, 'hero')}
                     alt="Quran Study"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=1200&q=80';
+                    }}
                     className="w-full h-80 sm:h-96 object-cover transform hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -224,8 +226,12 @@ export const HomePage: React.FC<HomePageProps> = ({
             >
               <div className="relative h-44 overflow-hidden bg-gray-100">
                 <img
-                  src={c.imageUrl || 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=600&q=80'}
+                  src={resolveImageUrl(c.imageUrl, 'course')}
                   alt={c.title}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1584286595398-a59f21d313f5?auto=format&fit=crop&w=800&q=80';
+                  }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <span className="absolute top-3 left-3 bg-[#075E46] text-white text-xs font-semibold px-2.5 py-1 rounded-md shadow-xs">
@@ -290,20 +296,19 @@ export const HomePage: React.FC<HomePageProps> = ({
               >
                 <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-[#075E46]/20 mb-4 shadow-inner">
                   <img
-                    src={
-                      t.imageUrl
-                        ? t.imageUrl.replace('/src/assets/images/', '/images/')
-                        : t.gender === 'Female' || t.name.toLowerCase().includes('ayesha')
-                        ? '/images/female_quran_tutor.jpg'
-                        : '/images/qari_teacher_male.jpg'
-                    }
+                    src={resolveImageUrl(
+                      t.imageUrl,
+                      t.gender === 'Female' || t.name.toLowerCase().includes('ayesha')
+                        ? 'teacher-female'
+                        : 'teacher-male'
+                    )}
                     alt={t.name}
                     onError={(e) => {
                       e.currentTarget.onerror = null;
                       if (t.gender === 'Female' || t.name.toLowerCase().includes('ayesha')) {
-                        e.currentTarget.src = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80';
+                        e.currentTarget.src = '/images/female_quran_tutor.jpg';
                       } else {
-                        e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80';
+                        e.currentTarget.src = '/images/qari_teacher_male.jpg';
                       }
                     }}
                     className="w-full h-full object-cover"
@@ -430,8 +435,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                     className="sm:w-48 h-48 sm:h-auto overflow-hidden bg-gray-100 flex-shrink-0 cursor-pointer"
                   >
                     <img
-                      src={ann.imageUrl}
+                      src={resolveImageUrl(ann.imageUrl, 'general')}
                       alt={ann.title}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/images/admission_poster.jpg';
+                      }}
                       className="w-full h-full object-cover hover:scale-105 transition-transform"
                     />
                   </div>
@@ -495,8 +504,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                 className="group relative h-48 rounded-2xl overflow-hidden cursor-pointer shadow-xs hover:shadow-lg transition-all"
               >
                 <img
-                  src={item.imageUrl}
+                  src={resolveImageUrl(item.imageUrl, 'general')}
                   alt={item.title || 'Gallery item'}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=800&q=80';
+                  }}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">

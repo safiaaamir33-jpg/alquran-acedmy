@@ -214,7 +214,13 @@ app.post('/api/chatbot', async (req: Request, res: Response) => {
       return;
     }
 
-    const academyContext = context || `
+    const academyContext = typeof context === 'object' ? `
+Academy Name: ${context.academyName || 'Noor Al-Quran Academy'}
+Phone: ${context.phone || '+92 300 1234567'}
+WhatsApp: ${context.whatsapp || '+92 300 1234567'}
+Address: ${context.address || 'Islamabad, Pakistan'}
+Features: Certified Tutors, 1-on-1 Classes, Female Tutors for Sisters, 3-Day Free Trial
+` : (context || `
 Academy Name: Noor Al-Quran Academy, Pakistan
 Tagline: Illuminating Hearts & Minds with the Noble Quran across Pakistan & Worldwide
 Phone & WhatsApp: +92 300 1234567
@@ -235,7 +241,7 @@ Key Highlights:
 - 3-day 100% free trial with NO upfront payment required.
 - Flexible timings in Asia/Karachi timezone, 24/7 matching student convenience globally.
 - Pakistani payments accepted via Bank Transfer, JazzCash, EasyPaisa.
-`;
+`);
 
     const systemInstruction = `
 You are the official, dignified, and extremely knowledgeable AI Counselor & Islamic Scholar for Noor Al-Quran Academy, Pakistan.

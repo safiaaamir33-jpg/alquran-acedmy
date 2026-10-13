@@ -5,7 +5,9 @@ import { saveAnnouncement, deleteAnnouncement } from '../../firebase/services';
 import { ImageUploadModal } from '../../components/common/ImageUploadModal';
 import { Lightbox } from '../../components/common/Lightbox';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
-import posterCampImg from '../../assets/images/admission_poster_camp_1791732001454.jpg';
+import { resolveImageUrl } from '../../utils/imageHelpers';
+
+const posterCampImg = '/images/admission_poster.jpg';
 
 export const AdminPostersPage: React.FC<{
   announcements: Announcement[];
@@ -175,7 +177,15 @@ export const AdminPostersPage: React.FC<{
                     onClick={() => setSelectedPoster({ url: p.imageUrl!, title: p.title })}
                     className="h-48 overflow-hidden bg-gray-100 cursor-pointer group relative"
                   >
-                    <img src={p.imageUrl!} alt={p.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                    <img
+                      src={resolveImageUrl(p.imageUrl, 'general')}
+                      alt={p.title}
+                      onError={(e) => {
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = '/images/admission_poster.jpg';
+                      }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    />
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <span className="text-white text-xs font-bold bg-black/60 px-3 py-1 rounded-lg">View Full</span>
                     </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { BookOpen, Phone, MessageCircle, Mail, MapPin, ShieldCheck, Heart } from 'lucide-react';
 import { SiteSettings } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
+import { resolveImageUrl } from '../../utils/imageHelpers';
 
 interface FooterProps {
   settings: SiteSettings;
@@ -43,7 +44,7 @@ export const Footer: React.FC<FooterProps> = ({ settings, onNavigate }) => {
             <div className="flex items-center gap-3 mb-4">
               {settings.logoUrl ? (
                 <img
-                  src={settings.logoUrl}
+                  src={resolveImageUrl(settings.logoUrl, 'logo')}
                   alt={settings.academyName || 'Noor Al-Quran Academy'}
                   onError={(e) => {
                     e.currentTarget.onerror = null;

@@ -4,6 +4,7 @@ import { Announcement } from '../../types';
 import { saveAnnouncement, deleteAnnouncement } from '../../firebase/services';
 import { ImageUploadModal } from '../../components/common/ImageUploadModal';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
+import { resolveImageUrl } from '../../utils/imageHelpers';
 
 export const AdminAnnouncementsPage: React.FC<{
   announcements: Announcement[];
@@ -127,7 +128,15 @@ export const AdminAnnouncementsPage: React.FC<{
               <h4 className="font-bold text-base text-[#24352F]">{a.title}</h4>
               <p className="text-xs text-gray-600 line-clamp-3 mt-2">{a.content}</p>
               {a.imageUrl && (
-                <img src={a.imageUrl} alt="Poster" className="h-32 w-full object-cover rounded-xl mt-3" />
+                <img
+                  src={resolveImageUrl(a.imageUrl, 'general')}
+                  alt="Poster"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = '/images/admission_poster.jpg';
+                  }}
+                  className="h-32 w-full object-cover rounded-xl mt-3"
+                />
               )}
             </div>
 

@@ -5,6 +5,7 @@ import { saveGalleryItem, deleteGalleryItem } from '../../firebase/services';
 import { deleteImageFromStorage } from '../../firebase/storage';
 import { ImageUploadModal } from '../../components/common/ImageUploadModal';
 import { ConfirmModal } from '../../components/common/ConfirmModal';
+import { resolveImageUrl } from '../../utils/imageHelpers';
 
 export const AdminGalleryPage: React.FC<{
   gallery: GalleryItem[];
@@ -93,7 +94,15 @@ export const AdminGalleryPage: React.FC<{
             className="group relative rounded-2xl overflow-hidden bg-white border border-gray-200 shadow-xs flex flex-col justify-between"
           >
             <div className="h-44 overflow-hidden bg-gray-100">
-              <img src={item.imageUrl} alt={item.title || 'Photo'} className="w-full h-full object-cover" />
+              <img
+                src={resolveImageUrl(item.imageUrl, 'general')}
+                alt={item.title || 'Photo'}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=800&q=80';
+                }}
+                className="w-full h-full object-cover"
+              />
             </div>
 
             <div className="p-3">

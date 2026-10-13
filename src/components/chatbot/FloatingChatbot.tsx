@@ -100,13 +100,12 @@ export const FloatingChatbot: React.FC<FloatingChatbotProps> = ({ settings, onNa
         body: JSON.stringify({
           message: textToSend.trim(),
           history: messages.map((m) => ({ role: m.role, text: m.text })),
-          context: `
-Academy: ${settings.academyName || 'Noor Al-Quran Academy'}
-Phone: ${settings.phone || '+92 300 1234567'}
-WhatsApp: ${settings.whatsapp || '+92 300 1234567'}
-Address: ${settings.address || 'Islamabad, Pakistan'}
-Features: Certified Tutors, 1-on-1 Classes, Female Tutors for Sisters, 3-Day Free Trial
-`,
+          context: {
+            academyName: settings.academyName || 'Noor Al-Quran Academy',
+            phone: settings.phone || '+92 300 1234567',
+            whatsapp: settings.whatsapp || '+92 300 1234567',
+            address: settings.address || 'Islamabad, Pakistan',
+          },
         }),
       });
 

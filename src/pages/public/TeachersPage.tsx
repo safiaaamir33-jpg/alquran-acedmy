@@ -2,6 +2,7 @@ import React from 'react';
 import { Award, BookOpen, Clock, ShieldCheck, UserCheck } from 'lucide-react';
 import { Teacher } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
+import { resolveImageUrl } from '../../utils/imageHelpers';
 
 export const TeachersPage: React.FC<{ teachers: Teacher[]; onNavigate: (path: string) => void }> = ({
   teachers,
@@ -56,20 +57,19 @@ export const TeachersPage: React.FC<{ teachers: Teacher[]; onNavigate: (path: st
               <div className="flex items-center gap-4 mb-5">
                 <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-emerald-100 flex-shrink-0 shadow-inner">
                   <img
-                    src={
-                      teacher.imageUrl
-                        ? teacher.imageUrl.replace('/src/assets/images/', '/images/')
-                        : teacher.gender === 'Female' || teacher.name.toLowerCase().includes('ayesha')
-                        ? '/images/female_quran_tutor.jpg'
-                        : '/images/qari_teacher_male.jpg'
-                    }
+                    src={resolveImageUrl(
+                      teacher.imageUrl,
+                      teacher.gender === 'Female' || teacher.name.toLowerCase().includes('ayesha')
+                        ? 'teacher-female'
+                        : 'teacher-male'
+                    )}
                     alt={teacher.name}
                     onError={(e) => {
                       e.currentTarget.onerror = null;
                       if (teacher.gender === 'Female' || teacher.name.toLowerCase().includes('ayesha')) {
-                        e.currentTarget.src = 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80';
+                        e.currentTarget.src = '/images/female_quran_tutor.jpg';
                       } else {
-                        e.currentTarget.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80';
+                        e.currentTarget.src = '/images/qari_teacher_male.jpg';
                       }
                     }}
                     className="w-full h-full object-cover"

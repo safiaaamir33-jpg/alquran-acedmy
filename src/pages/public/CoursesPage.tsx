@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BookOpen, Clock, Users, Calendar, ArrowRight, Check, X, Shield } from 'lucide-react';
 import { Course } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
+import { resolveImageUrl } from '../../utils/imageHelpers';
 
 export const CoursesPage: React.FC<{ courses: Course[]; onNavigate: (path: string) => void }> = ({
   courses,
@@ -70,8 +71,12 @@ export const CoursesPage: React.FC<{ courses: Course[]; onNavigate: (path: strin
             <div>
               <div className="relative h-52 overflow-hidden bg-gray-100">
                 <img
-                  src={c.imageUrl || 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=800&q=80'}
+                  src={resolveImageUrl(c.imageUrl, 'course')}
                   alt={c.title}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1584286595398-a59f21d313f5?auto=format&fit=crop&w=800&q=80';
+                  }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-3 left-3 bg-[#075E46]/95 backdrop-blur-xs text-white text-xs font-semibold px-3 py-1 rounded-lg">
@@ -150,8 +155,12 @@ export const CoursesPage: React.FC<{ courses: Course[]; onNavigate: (path: strin
 
             <div className="mt-4 rounded-xl overflow-hidden h-48 bg-gray-100">
               <img
-                src={activeCourseModal.imageUrl || 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=800&q=80'}
+                src={resolveImageUrl(activeCourseModal.imageUrl, 'course')}
                 alt={activeCourseModal.title}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1584286595398-a59f21d313f5?auto=format&fit=crop&w=800&q=80';
+                }}
                 className="w-full h-full object-cover"
               />
             </div>

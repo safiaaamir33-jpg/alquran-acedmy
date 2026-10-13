@@ -1,111 +1,79 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function isValidId(id) {
-      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
-    }
-
-    function incoming() {
-      return request.resource.data;
-    }
-
     // Health test check connection
     match /test/{testId} {
-      allow get, list: if true;
+      allow read, write: if true;
     }
 
     // Admins Collection
     match /admins/{adminId} {
-      allow get: if isValidId(adminId);
-      allow list: if true;
-      allow write: if isValidId(adminId);
+      allow read, write: if true;
     }
 
     // Site Settings: Public read & management write
     match /siteSettings/{settingId} {
-      allow get: if isValidId(settingId);
-      allow list: if true;
-      allow write: if isValidId(settingId);
+      allow read, write: if true;
     }
 
-    // Courses: Public read & management write
+    // Courses: Public read & management write / delete
     match /courses/{courseId} {
-      allow get: if isValidId(courseId);
-      allow list: if true;
-      allow write: if isValidId(courseId);
+      allow read, write, delete: if true;
     }
 
-    // Teachers: Public read & management write
+    // Teachers: Public read & management write / delete
     match /teachers/{teacherId} {
-      allow get: if isValidId(teacherId);
-      allow list: if true;
-      allow write: if isValidId(teacherId);
+      allow read, write, delete: if true;
     }
 
     // Admissions: Public application submission & management operations
     match /admissions/{admissionId} {
-      allow get, write, delete: if isValidId(admissionId);
-      allow list: if true;
+      allow read, write, delete: if true;
     }
 
     // Students: Academy student roster management
     match /students/{studentId} {
-      allow get, write, delete: if isValidId(studentId);
-      allow list: if true;
+      allow read, write, delete: if true;
     }
 
     // Student Fees: Academy fee tracking
     match /studentFees/{feeId} {
-      allow get, write, delete: if isValidId(feeId);
-      allow list: if true;
+      allow read, write, delete: if true;
     }
 
-    // Announcements & Posters: Public read & management write
+    // Announcements & Posters: Public read & management write / delete
     match /announcements/{announcementId} {
-      allow get: if isValidId(announcementId);
-      allow list: if true;
-      allow write: if isValidId(announcementId);
+      allow read, write, delete: if true;
     }
 
-    // Gallery: Public read & management write
+    // Gallery: Public read & management write / delete
     match /gallery/{imageId} {
-      allow get: if isValidId(imageId);
-      allow list: if true;
-      allow write: if isValidId(imageId);
+      allow read, write, delete: if true;
     }
 
-    // Reviews: Public read & submission; Management moderation
+    // Reviews: Public read & submission; Management moderation / delete
     match /reviews/{reviewId} {
-      allow get, write, delete: if isValidId(reviewId);
-      allow list: if true;
+      allow read, write, delete: if true;
     }
 
-    // FAQs: Public read & management write
+    // FAQs: Public read & management write / delete
     match /faqs/{faqId} {
-      allow get: if isValidId(faqId);
-      allow list: if true;
-      allow write: if isValidId(faqId);
+      allow read, write, delete: if true;
     }
 
-    // Contact Messages: Public submission & website viewing / management
+    // Contact Messages: Public submission & website viewing / management / delete
     match /contactMessages/{messageId} {
-      allow get, write, delete: if isValidId(messageId);
-      allow list: if true;
+      allow read, write, delete: if true;
     }
 
     // Chatbot Settings: Public read & management write
     match /chatbotSettings/{settingId} {
-      allow get: if isValidId(settingId);
-      allow list: if true;
-      allow write: if isValidId(settingId);
+      allow read, write, delete: if true;
     }
 
-    // Chat Conversations: Public log & management review
+    // Chat Conversations: Public log & management review / delete
     match /chatConversations/{conversationId} {
-      allow get: if isValidId(conversationId);
-      allow list: if true;
-      allow create, update, delete: if isValidId(conversationId);
+      allow read, write, delete: if true;
     }
   }
 }
-

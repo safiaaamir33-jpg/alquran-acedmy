@@ -269,7 +269,7 @@ export const initialAnnouncements: Omit<Announcement, 'id'>[] = [
     content: 'Registration is now open for Noorani Qaida, Tajweed Mastery, and Hifz programs. Avail our 3-day free trial and choose your preferred morning or evening schedule.',
     contentUrdu: 'نورانی قاعدہ، تجوید اور حفظ القرآن کے نئے بیچز میں داخلے شروع ہو چکے ہیں۔ ابھی اپلائی کریں اور 3 روزہ مفت ٹرائل حاصل کریں۔',
     category: 'Admissions',
-    imageUrl: '/src/assets/images/admission_poster_camp_1791732001454.jpg',
+    imageUrl: '/images/admission_poster.jpg',
     actionLink: '/admission',
     isPublished: true,
     publishedAt: 'October 2026',

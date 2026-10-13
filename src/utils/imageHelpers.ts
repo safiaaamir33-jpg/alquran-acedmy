@@ -1,8 +1,8 @@
 // Utility for client-side image compression and curated Quran Academy SVG emblems
-import femaleTutorImg from '../assets/images/female_quran_tutor_1791731925907.jpg';
-import qariTeacherImg from '../assets/images/qari_teacher_male_1791731899766.jpg';
-import muftiScholarImg from '../assets/images/islamic_scholar_mufti_1791731957430.jpg';
-import posterCampImg from '../assets/images/admission_poster_camp_1791732001454.jpg';
+export const femaleTutorImg = '/images/female_quran_tutor.jpg';
+export const qariTeacherImg = '/images/qari_teacher_male.jpg';
+export const muftiScholarImg = '/images/islamic_scholar_mufti.jpg';
+export const posterCampImg = '/images/admission_poster.jpg';
 
 export async function compressImageFile(
   file: File,
@@ -70,23 +70,10 @@ export async function compressImageFile(
   });
 }
 
-// Uploads media to express backend which stores it in /uploads/
-export async function uploadImageViaApi(dataUrl: string, folder = 'media'): Promise<string> {
-  try {
-    const res = await fetch('/api/upload-media', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dataUrl, folder }),
-    });
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.url) {
-        return data.url;
-      }
-    }
-  } catch (err) {
-    console.warn('Backend image upload fallback to optimized data URL:', err);
-  }
+// Stores image data reliably across serverless (Vercel) and preview hosts
+export async function uploadImageViaApi(dataUrl: string, _folder = 'media'): Promise<string> {
+  // Return the client-compressed base64 dataUrl directly.
+  // This ensures 100% persistence in Firestore without ephemeral server filesystem 404s on Vercel.
   return dataUrl;
 }
 
@@ -171,9 +158,9 @@ export const presetIslamicLogos = [
 ];
 
 export const presetTeacherPhotos = [
-  { id: 't-qari', title: 'Qari Muhammad Abdullah', titleUrdu: 'قاری محمد عبد اللہ (حفظ و تجوید)', url: qariTeacherImg },
-  { id: 't-female', title: 'Ustadhah Fatima Zahra', titleUrdu: 'استاذہ فاطمہ زہراء (معلمات برائے خواتین و بچیاں)', url: femaleTutorImg },
-  { id: 't-scholar', title: 'Mufti Tariq Jameel Al-Azhari', titleUrdu: 'مفتی طارق جمیل (عالم دین و فقہ)', url: muftiScholarImg },
+  { id: 't-qari', title: 'Qari Muhammad Asim Farooqi', titleUrdu: 'قاری محمد عاصم فاروقی (حفظ و تجوید)', url: '/images/qari_teacher_male.jpg' },
+  { id: 't-female', title: 'Ustadha Ayesha Siddiqua', titleUrdu: 'استاذہ عائشہ صدیقہ (معلمات برائے خواتین و بچیاں)', url: '/images/female_quran_tutor.jpg' },
+  { id: 't-scholar', title: 'Mufti Salman Tariq', titleUrdu: 'مفتی سلمان طارق (عالم دین و فقہ)', url: '/images/islamic_scholar_mufti.jpg' },
 ];
 
 export const presetCoursePhotos = [
@@ -184,6 +171,99 @@ export const presetCoursePhotos = [
 ];
 
 export const presetPosters = [
-  { id: 'p-camp', title: 'Admissions Open Poster', url: posterCampImg },
+  { id: 'p-camp', title: 'Admissions Open Poster', url: '/images/admission_poster.jpg' },
   { id: 'p-online', title: 'Online Quran Classes Notice', url: 'https://images.unsplash.com/photo-1584286595398-a59f21d313f5?auto=format&fit=crop&w=800&q=80' },
 ];
+
+/**
+ * Safely resolves any image URL, converting broken local paths (like /uploads/ or /src/assets/ or hashed /assets/)
+ * into guaranteed working static assets or high-res CDN URLs.
+ */
+export function resolveImageUrl(
+  url?: string | null,
+  fallbackCategory: 'teacher-male' | 'teacher-female' | 'course' | 'hero' | 'logo' | 'general' = 'general'
+): string {
+  if (!url || typeof url !== 'string' || url.trim() === '') {
+    return getFallbackForCategory(fallbackCategory);
+  }
+
+  const clean = url.trim();
+
+  // If already a valid data URI, return as is
+  if (clean.startsWith('data:')) {
+    return clean;
+  }
+
+  // Teacher mappings (both static and hashed versions)
+  if (
+    clean.includes('female_quran_tutor') ||
+    clean.includes('female') ||
+    clean.includes('ayesha') ||
+    clean.includes('fatima') ||
+    (fallbackCategory === 'teacher-female' && (clean.includes('1544005313-94ddf0286df2') || clean.includes('/src/') || clean.includes('/assets/')))
+  ) {
+    return '/images/female_quran_tutor.jpg';
+  }
+
+  if (
+    clean.includes('qari_teacher') ||
+    clean.includes('asim') ||
+    clean.includes('abdullah') ||
+    (fallbackCategory === 'teacher-male' && (clean.includes('1507003211169') || clean.includes('/src/') || clean.includes('/assets/')))
+  ) {
+    return '/images/qari_teacher_male.jpg';
+  }
+
+  if (
+    clean.includes('scholar') ||
+    clean.includes('mufti') ||
+    clean.includes('salman') ||
+    clean.includes('tariq') ||
+    clean.includes('1500648767791')
+  ) {
+    return '/images/islamic_scholar_mufti.jpg';
+  }
+
+  if (clean.includes('admission_poster') || clean.includes('poster')) {
+    return '/images/admission_poster.jpg';
+  }
+
+  if (clean.includes('logo')) {
+    return '/images/logo.svg';
+  }
+
+  // If external HTTPS image, return as is
+  if (clean.startsWith('http://') || clean.startsWith('https://')) {
+    return clean;
+  }
+
+  // If starts with /images/, return as is
+  if (clean.startsWith('/images/')) {
+    return clean;
+  }
+
+  // If broken path starting with /assets/ or /src/ or /uploads/
+  if (clean.startsWith('/assets/') || clean.startsWith('/src/') || clean.startsWith('/uploads/')) {
+    return getFallbackForCategory(fallbackCategory);
+  }
+
+  return clean;
+}
+
+export function getFallbackForCategory(category: string): string {
+  switch (category) {
+    case 'teacher-female':
+      return '/images/female_quran_tutor.jpg';
+    case 'teacher-male':
+      return '/images/qari_teacher_male.jpg';
+    case 'course':
+      return 'https://images.unsplash.com/photo-1584286595398-a59f21d313f5?auto=format&fit=crop&w=800&q=80';
+    case 'hero':
+      return 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=1200&q=80';
+    case 'logo':
+      return '/images/logo.svg';
+    default:
+      return 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=800&q=80';
+  }
+}
+

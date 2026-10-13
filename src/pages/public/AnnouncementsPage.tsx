@@ -3,6 +3,7 @@ import { Calendar, Tag, ExternalLink, ArrowRight } from 'lucide-react';
 import { Announcement } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
 import { Lightbox } from '../../components/common/Lightbox';
+import { resolveImageUrl } from '../../utils/imageHelpers';
 
 export const AnnouncementsPage: React.FC<{
   announcements: Announcement[];
@@ -32,29 +33,35 @@ export const AnnouncementsPage: React.FC<{
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {announcements.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-emerald-950/10 flex flex-col justify-between transition-all duration-300"
-            >
-              <div>
-                {item.imageUrl && (
-                  <div
-                    onClick={() => setSelectedPoster({ url: item.imageUrl!, title: item.title })}
-                    className="relative h-64 overflow-hidden bg-gray-100 cursor-pointer group"
-                  >
-                    <img
-                      src={item.imageUrl}
-                      alt={item.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <span className="text-white text-xs font-bold bg-[#075E46]/90 px-3 py-1.5 rounded-lg shadow-sm">
-                        Click to Enlarge Poster
-                      </span>
+          {announcements.map((item) => {
+            const safeImg = resolveImageUrl(item.imageUrl, 'general');
+            return (
+              <div
+                key={item.id}
+                className="bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl border border-emerald-950/10 flex flex-col justify-between transition-all duration-300"
+              >
+                <div>
+                  {item.imageUrl && (
+                    <div
+                      onClick={() => setSelectedPoster({ url: safeImg, title: item.title })}
+                      className="relative h-64 overflow-hidden bg-gray-100 cursor-pointer group"
+                    >
+                      <img
+                        src={safeImg}
+                        alt={item.title}
+                        onError={(e) => {
+                          e.currentTarget.onerror = null;
+                          e.currentTarget.src = '/images/admission_poster.jpg';
+                        }}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <span className="text-white text-xs font-bold bg-[#075E46]/90 px-3 py-1.5 rounded-lg shadow-sm">
+                          Click to Enlarge Poster
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 <div className="p-6 sm:p-8 space-y-3">
                   <div className="flex items-center justify-between text-xs text-gray-500">
@@ -87,8 +94,9 @@ export const AnnouncementsPage: React.FC<{
                 </button>
               </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
+      </div>
       )}
 
       {selectedPoster && (

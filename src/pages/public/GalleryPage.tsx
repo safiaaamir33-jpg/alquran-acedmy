@@ -3,6 +3,7 @@ import { GalleryItem } from '../../types';
 import { useLanguage } from '../../context/LanguageContext';
 import { Lightbox } from '../../components/common/Lightbox';
 import { Maximize2 } from 'lucide-react';
+import { resolveImageUrl } from '../../utils/imageHelpers';
 
 export const GalleryPage: React.FC<{ gallery: GalleryItem[] }> = ({ gallery }) => {
   const { isUrdu } = useLanguage();
@@ -50,17 +51,23 @@ export const GalleryPage: React.FC<{ gallery: GalleryItem[] }> = ({ gallery }) =
 
       {/* Gallery Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredItems.map((item) => (
-          <div
-            key={item.id}
-            onClick={() => setActiveItem(item)}
-            className="group relative rounded-3xl overflow-hidden bg-gray-100 shadow-sm hover:shadow-xl cursor-pointer h-64 border border-emerald-950/10 transition-all duration-300"
-          >
-            <img
-              src={item.imageUrl}
-              alt={item.title || 'Academy photo'}
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-            />
+        {filteredItems.map((item) => {
+          const safeImg = resolveImageUrl(item.imageUrl, 'general');
+          return (
+            <div
+              key={item.id}
+              onClick={() => setActiveItem(item)}
+              className="group relative rounded-3xl overflow-hidden bg-gray-100 shadow-sm hover:shadow-xl cursor-pointer h-64 border border-emerald-950/10 transition-all duration-300"
+            >
+              <img
+                src={safeImg}
+                alt={item.title || 'Academy photo'}
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = 'https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=800&q=80';
+                }}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4 text-white">
               <span className="text-[10px] font-bold uppercase text-[#D4AF37] tracking-wider">
                 {item.category || 'Academy'}
@@ -73,8 +80,9 @@ export const GalleryPage: React.FC<{ gallery: GalleryItem[] }> = ({ gallery }) =
               </div>
             </div>
           </div>
-        ))}
-      </div>
+        );
+      })}
+    </div>
 
       {/* Lightbox */}
       {activeItem && (
